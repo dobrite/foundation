@@ -1,5 +1,5 @@
 ---
-- include: user.yaml
+- include: user.yml
 
 - name: install deps for building psycopg2
   apt: pkg={{item}}
@@ -9,7 +9,7 @@
   with_items:
     - libpq-dev
 
-- include: "{{inventory_dir}}/roles/common/tasks/virtualenv3.yaml"
+- include: "{{inventory_dir}}/roles/common/tasks/virtualenv3.yml"
   vars:
     virtualenv3_location: /home/cent/centrifuge/env33
 

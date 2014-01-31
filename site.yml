@@ -19,7 +19,7 @@
   roles:
     - postgres
 
-- hosts: cent
+- hosts: centrifuge
   sudo: true
   roles:
     - centrifuge

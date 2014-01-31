@@ -1,7 +1,7 @@
 ---
-- include: users.yaml
-- include: ssh.yaml
-- include: apt.yaml
-- include: git.yaml
-- include: make.yaml
-- include: vim.yaml
+- include: users.yml
+- include: ssh.yml
+- include: apt.yml
+- include: git.yml
+- include: make.yml
+- include: vim.yml

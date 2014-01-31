@@ -9,6 +9,6 @@
     - libpq-dev
     - python-psycopg2
 
-- include: postgres.yaml
-- include: roles.yaml
-- include: databases.yaml
+- include: postgres.yml
+- include: roles.yml
+- include: databases.yml

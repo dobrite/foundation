@@ -18,6 +18,8 @@
     with_items: vms
     register: vagrant
 
+  - name: dump
+    debug: var=vagrant
 
   - name: dump vagrant inventory file
     template: >
