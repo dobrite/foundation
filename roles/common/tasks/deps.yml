@@ -1,0 +1,9 @@
+---
+- name: install deps for apt_repository
+  apt: pkg={{ item }}
+       state=latest
+  with_items:
+    - python-pycurl
+    - python-apt
+
+

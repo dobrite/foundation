@@ -1,0 +1,9 @@
+---
+- name: create postgres role(s)
+  sudo_user: postgres
+  postgresql_user: >
+    user=item.user
+    state=present
+    password=item.password
+    role_attr_flags=NOSUPERUSER,NOCREATEROLE,NOCREATEDB,NOINHERIT,NOLOGIN,NOREPLICATION
+  with_items: pg_database_config

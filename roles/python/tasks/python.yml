@@ -1,0 +1,46 @@
+---
+- name: install all python 3 dependencies
+  apt: pkg={{ item }}
+       state=latest
+       update_cache=true
+       cache_valid_time=3600
+  with_items:
+    - build-essential
+    - python-dev
+    - openssl
+    - libssl-dev
+    - libbz2-dev
+    - zlib1g-dev
+    - libexpat1-dev
+    - libdb4.8-dev
+    - libsqlite3-dev
+    - libncursesw5-dev
+    - libncurses5-dev
+    - libreadline-dev
+    - libxml2-dev
+    - python-software-properties
+
+- name: copy Python-3.3.3.tgz to /tmp
+  copy: src=Python-3.3.3.tgz
+        dest=/tmp/Python-3.3.3.tgz
+        mode=0744
+
+- name: untar Python-3.3.3.tgz into /tmp directory
+  command: tar -xzvf /tmp/Python-3.3.3.tgz
+           chdir=/tmp
+           creates=/tmp/Python-3.3.3
+
+- name: configure Python-3.3.3.tgz
+  command: ./configure --prefix=/opt/python-3.3.3
+           chdir=/tmp/Python-3.3.3
+           creates=/opt/python-3.3.3
+
+- name: make Python-3.3.3.tgz
+  command: make
+           chdir=/tmp/Python-3.3.3
+           creates=/opt/python-3.3.3
+
+- name: make install Python-3.3.3.tgz
+  command: make install
+           chdir=/tmp/Python-3.3.3
+           creates=/opt/python-3.3.3

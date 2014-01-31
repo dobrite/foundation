@@ -1,0 +1,20 @@
+---
+
+- name: spin up an aws instance
+  hosts: local
+
+  tasks:
+    - name: spin up i1.micro Ubuntu Server 12.04.3 in N. Ca
+      ec2: >
+        keypair='Ansible Test'
+        instance_type=t1.micro
+        image=ami-acf9cde9
+        region=us-west-1
+        instance_tags='{"db":"postgres"}'
+        wait=yes
+        group=default
+        count=1
+      register: new_instance
+
+    - name: print out info
+      debug: var=new_instance

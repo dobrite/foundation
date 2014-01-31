@@ -1,0 +1,105 @@
+*.py[co]
+
+# API keys, etc.
+secrets.ini
+
+Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+lib
+var
+sdist
+develop-eggs
+*.egg-info
+.installed.cfg
+.cache
+.*.sw*
+*.swp
+*.swo
+*.swn
+*.swm
+*.swl
+*.swk
+
+*.bak
+
+temp*
+!templates
+
+pyvenv.cfg
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+#Translations
+*.mo
+
+# Vagrant
+.vagrant
+vagrant_ansible_inventory_default
+vagrant_inventory
+.vagrant-lock
+Vagrantfile.json
+Vagrantfile
+
+# ansible (api keys, etc)
+all.yml
+postgres.yml
+redis.yml
+
+notes
+
+# Mr Developer
+.mr.developer.cfg
+
+# Generated files
+.sass-cache
+
+# generated.css
+static/css/*
+generated.js
+generated.css
+generated/
+
+__pycache__
+.DS_Store
+
+dump.rdb
+
+tmp/
+*#
+*~
+
+chromedriver.log
+
+src/
+
+*.sqlite
+
+# bower
+bower_components
+
+# node
+node_modules
+npm-debug.log
+
+# centrifuge
+centrifuge.db
+config.json
+.centrc
+
+#build files
+*.built.js
+
+ansible/
+ansible-vagrant/
+env27/

@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    box_name: precise64
+    box_path: http://files.vagrantup.com/precise64.box
+
+  tasks:
+  - name: fire up a set of vagrant instances to log into
+    vagrant: >
+      state=present
+      box_name={{box_name}}
+      box_path={{box_path}}
+      vm_name={{item}}
+#forward_ports=8000
+    with_items: vms
+    register: vagrant
+
+
+  - name: dump vagrant inventory file
+    template: >
+      src=vagrant_inventory.j2
+      dest="{{inventory_dir}}/vagrant_inventory"

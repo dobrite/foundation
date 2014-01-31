@@ -1,0 +1,14 @@
+# https://github.com/zzet/ansible-postgresql-role
+---
+- name: install deps for postgres tasks
+  apt: pkg={{item}}
+       state=present
+       update_cache=true
+       cache_valid_time=3600
+  with_items:
+    - libpq-dev
+    - python-psycopg2
+
+- include: postgres.yaml
+- include: roles.yaml
+- include: databases.yaml

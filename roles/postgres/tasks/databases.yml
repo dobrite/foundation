@@ -1,0 +1,10 @@
+---
+- name: create wwc database(s)
+  sudo_user: postgres
+  postgresql_db: >
+    name=item.database
+    state=present
+    encoding={{pg_encoding}}
+    lc_collate={{pg_locale}}
+    lc_ctype={{pg_locale}}
+  with_items: pg_database_config

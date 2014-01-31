@@ -1,0 +1,10 @@
+---
+- name: grant privileges on databases
+  sudo_user: postgres
+  postgresql_privs: >
+    database=item.database
+    state=present
+    privs=ALL
+    type=database
+    role=item.user
+  with_items: pg_database_config

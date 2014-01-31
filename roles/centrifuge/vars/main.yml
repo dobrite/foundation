@@ -1,0 +1,3 @@
+---
+cent_storage_class: postgresql
+cent_state_class: redis

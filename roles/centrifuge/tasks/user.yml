@@ -1,0 +1,7 @@
+---
+- name: create user cent
+  user: >
+    name=cent
+    state=present
+    shell=/bin/bash
+    createhome=yes

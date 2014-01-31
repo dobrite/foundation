@@ -1,0 +1,12 @@
+---
+# Variables listed here are applicable to all host groups
+
+admin_username: <username>
+admin_public_key_path: <full path to pub key>
+ssh_port: <port>
+vms:
+  - app-1
+  - db-1
+  - chat-1
+  - chat-2
+  - go-1

@@ -1,0 +1,25 @@
+---
+cent_password: admin
+cent_cookie_secret: badsecret
+cent_api_secret: badapisecret
+cent_update_interval: 60
+
+cent_storage_class: sqlite
+
+# sqlite specific vars
+cent_sqlite_path: centrifuge.db
+
+# postgres specific vars
+cent_pg_host: localhost
+cent_pg_port: 27017
+cent_pg_name: centrifuge
+cent_pg_password: ""
+cent_pg_user: postgres
+cent_pg_pool_size: 10
+
+cent_state_class: base
+
+# redis specific vars
+cent_redis_host: localhost
+cent_redis_port: 6379
+cent_redis_password: ""

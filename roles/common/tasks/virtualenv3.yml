@@ -1,0 +1,21 @@
+---
+- name: create the directories
+  file: >
+    state=directory
+    path={{virtualenv3_location}}
+
+- name: create a virtualenv using pyvenv
+  command: >
+    /opt/python-3.3.3/bin/pyvenv-3.3 --upgrade {{virtualenv3_location}}
+    creates={{virtualenv3_location}}/bin/python3.3
+
+- name: download get-pip.py
+  get_url: >
+    url=https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+    dest=/tmp
+
+- name: install pip into the new virtualenv
+  command: >
+    {{virtualenv3_location}}/bin/python3.3 get-pip.py
+    chdir=/tmp
+    creates={{virtualenv3_location}}/bin/pip

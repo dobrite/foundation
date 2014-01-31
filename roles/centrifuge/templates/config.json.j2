@@ -1,0 +1,25 @@
+{
+    "password": "{{cent_password}}",
+    "cookie_secret": "{{cent_cookie_secret}}",
+    "api_secret": "{{cent_api_secret}}",
+    "structure": {
+        "storage": "centrifuge.structure.{{cent_storage_class}}.Storage",
+        "update_interval": {{cent_update_interval}},
+        "settings": {
+            "host": "{{cent_pg_host}}",
+            "port": {{cent_pg_port}},
+            "name": "{{cent_pg_name}}",
+            "password": "{{cent_pg_password}}",
+            "user": "{{cent_pg_user}}",
+            "pool_size": {{cent_pg_pool_size}}
+        }
+    },
+   "state": {
+        "storage": "centrifuge.state.{{cent_state_class}}.State",
+        "settings": {
+            "host": "{{cent_redis_host}}",
+            "port": {{cent_redis_port}},
+            "password": "{{cent_redis_password}}"
+        }
+    }
+}

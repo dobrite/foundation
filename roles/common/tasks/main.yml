@@ -1,0 +1,7 @@
+---
+- include: users.yaml
+- include: ssh.yaml
+- include: apt.yaml
+- include: git.yaml
+- include: make.yaml
+- include: vim.yaml
