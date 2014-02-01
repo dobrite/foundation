@@ -20,14 +20,12 @@ machine:
 	ansible-playbook -i ansible/plugins/inventory/digital_ocean.py site.yml
 
 vclean:
-	ansible all -i hosts -c local -m vagrant -a "cmd=clear"
+	ansible all -i 'localhost,' -c local -m vagrant -a "cmd=clear"
 
 vmachine:
-	ansible-playbook -i vagrant_inventory site.yml --skip-tags=bootstrap,ssh_setup
+	ansible-playbook -i vagrant_inventory site.yml
 
 v:
-	ansible-playbook -i hosts vagrant.yml
-	ansible-playbook -i vagrant_inventory site.yml --tags=bootstrap -e ansible_ssh_port=22 -u vagrant -e gather_facts=false
-	ansible-playbook -i vagrant_inventory site.yml --tags=ssh_setup -e ansible_ssh_port=22 --skip-tags=bootstrap -e gather_facts=false
+	ansible-playbook -i 'localhost,' vagrant.yml
 
 vall: | v vmachine

@@ -3,33 +3,69 @@
   connection: local
   gather_facts: false
 
-  vars:
-    box_name: precise64
-    box_path: http://files.vagrantup.com/precise64.box
+  tasks:
+    - name: fire up a set of vagrant instances to log into
+      vagrant: >
+        state=present
+        box_name=precise64
+        box_path=http://files.vagrantup.com/precise64.box
+        vm_name={{item}}
+      with_items: vms
+      register: vagrant
+
+    - name: dump vagrant inventory file
+      template: >
+        src=templates/vagrant_inventory.j2
+        dest=./vagrant_inventory
+
+    - name: add vagrants to in memory inventory
+      add_host: >
+        name="{{ item.instances.0.name }}"
+        group="{{ item.instances.0.name.split('-')[0] }}"
+        ansible_ssh_host="{{ item.instances.0.internal_ip }}"
+      with_items: vagrant.results
+
+    - name: dump private_ips
+      template: >
+        src=templates/priv.j2
+        dest=./priv.yml
+
+
+- hosts: all:!localhost
+  sudo: true
+  remote_user: vagrant
+  gather_facts: false
+
+  roles:
+    - common/bootstrap
+    - common/ssh
 
   tasks:
-  - name: fire up a set of vagrant instances to log into
-    vagrant: >
-      state=present
-      box_name={{box_name}}
-      box_path={{box_path}}
-      vm_name={{item}}
-#forward_ports=8000
-    with_items: vms
-    register: vagrant
+    - include_vars: priv.yml
 
-  - name: dump vagrant inventory file
-    template: >
-      src=templates/vagrant_inventory.j2
-      dest="{{inventory_dir}}/vagrant_inventory"
+    - name: create the facts directory
+      file: >
+        state=directory
+        path=/etc/ansible/facts.d
 
-  - name: dump vagrant info
-    debug: var=vagrant
+    - name: add private ip to facts.d
+      ini_file: >
+        state=present
+        section=ip
+        option=private
+        value="{{ item.ip }}"
+        dest=/etc/ansible/facts.d/config.fact
+        force=yes
+      with_items: vagrant_private_ips
+      when: item.name == inventory_hostname
 
-  - name: dump group_vars files
-    lineinfile: >
-      state=present
-      line="{{ item.instances.0.name }}_private_ip: {{ item.instances.0.private_ip }}"
-      insertafter=EOF
-      dest="{{inventory_dir}}/group_vars/all.yml"
-    with_items: vagrant.results
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: remove priv.yml from localhost
+      file: >
+        state=absent
+        path=./priv.yml

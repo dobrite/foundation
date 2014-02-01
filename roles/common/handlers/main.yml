@@ -10,9 +10,3 @@
   service: >
     name=iptables
     state=restarted
-
-- name: restart ssh
-  sudo: true
-  service: >
-    name=ssh
-    state=restarted
