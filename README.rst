@@ -61,8 +61,11 @@ TODO:
 * convert centrifuge nginx conf into a site.yaml compatible template
 * refactor to follow `ansible coding conventions`_.
 * maybe use periods to separate tags on hostnames inventory_hostname_short_ will only use up to first dot
+* Use system users for cent, app etc.
+* known host_
 
 .. _conventions: https://github.com/edx/configuration/wiki/Ansible-Coding-Conventions
 .. _blogpost: http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/
 .. _here: https://www.digitalocean.com/community/articles/initial-server-setup-with-ubuntu-12-04
 .. _short: http://docs.ansible.com/playbooks_variables.html#magic-variables-and-how-to-access-information-about-other-hosts
+.. _host: http://www.stavros.io/posts/example-provisioning-and-deployment-ansible/
