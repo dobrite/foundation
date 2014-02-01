@@ -1,3 +1,0 @@
----
-- name: do an apt-get update
-  apt: update_cache=True

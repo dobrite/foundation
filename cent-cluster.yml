@@ -36,3 +36,5 @@
         src=/etc/nginx/sites-available/centrifuge.nginx.conf
       notify:
         - reload nginx
+
+    - debug: var=hostvars
