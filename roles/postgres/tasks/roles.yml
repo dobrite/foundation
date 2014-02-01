@@ -5,5 +5,5 @@
     user=item.user
     state=present
     password=item.password
-    role_attr_flags=NOSUPERUSER,NOCREATEROLE,NOCREATEDB,NOINHERIT,NOLOGIN,NOREPLICATION
+    role_attr_flags=NOSUPERUSER,NOCREATEROLE,NOCREATEDB,NOINHERIT,NOREPLICATION
   with_items: pg_database_config

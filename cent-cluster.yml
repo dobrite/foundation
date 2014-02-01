@@ -17,7 +17,12 @@
 - hosts: centlb
   sudo: true
   roles:
-    - postgres
+    - role: postgres
+      tester: badpass!!
+      pg_cfg_pg_hba_custom:
+        - { type: host, database: cent_structure, user: cent_structure, address: "192.168.50.0/24", method: md5, comment: "centrifuge structure database" }
+      pg_database_config:
+        - { database: cent_structure, user: cent_structure, password: "{{ tester }}" }
     - role: nginx
       nginx_sites: "none"
 
@@ -36,5 +41,3 @@
         src=/etc/nginx/sites-available/centrifuge.nginx.conf
       notify:
         - reload nginx
-
-    - debug: var=hostvars
