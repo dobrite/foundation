@@ -1,0 +1,4 @@
+{% for vagrant in vagrant.results %}
+[{{ vagrant.instances.0.vagrant_name.split('_')[0] }}]
+{{ vagrant.instances.0.vagrant_name }} ansible_ssh_host={{ vagrant.instances.0.internal_ip }} ansible_ssh_port={{ ssh_port }} remote_user={{ admin_username }}
+{% endfor %}

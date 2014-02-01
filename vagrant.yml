@@ -18,10 +18,18 @@
     with_items: vms
     register: vagrant
 
-  - name: dump
-    debug: var=vagrant
-
   - name: dump vagrant inventory file
     template: >
-      src=vagrant_inventory.j2
+      src=templates/vagrant_inventory.j2
       dest="{{inventory_dir}}/vagrant_inventory"
+
+  - name: dump vagrant info
+    debug: var=vagrant
+
+  - name: dump group_vars files
+    lineinfile: >
+      state=present
+      line="{{ item.instances.0.name }}_private_ip: {{ item.instances.0.private_ip }}"
+      insertafter=EOF
+      dest="{{inventory_dir}}/group_vars/all.yml"
+    with_items: vagrant.results
