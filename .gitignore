@@ -53,9 +53,7 @@ Vagrantfile
 
 # ansible (api keys, etc)
 priv.yml
-groups_vars/all.yml
-groups_vars/postgres.yml
-group_vars/redis.yml
+group_vars/all.yml
 
 notes
 
