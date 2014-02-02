@@ -50,11 +50,9 @@ dopy expects env vars with client id and api key:
 TODO:
 =====
 * Fail2Ban and/or denyhosts: here_
-* the blogpost_ here has notes on postgres user dialog and system level users
-  too
+* use ufw as a front end to iptables
+* the blogpost_ here has notes on postgres user dialog and system level users too
 * Use system users for cent, app etc.
-* create postgres superuser and give user postgres a password
-* use meta folder to factor out dependencies (apt_repo, etc.)
 * paramterize python 3 version python3.{{python_version}} or similar
 * convert centrifuge nginx conf into a site.yaml compatible template
 * refactor to follow `ansible coding conventions`_.
@@ -62,6 +60,8 @@ TODO:
 * known host_
 * centlb nginx site "none" needs fixed
 * add var to pg task ports
+* add all returned data from instance provisioning to facts.d
+* make note about hash merge behaviour in ansible.cfg
 
 .. _conventions: https://github.com/edx/configuration/wiki/Ansible-Coding-Conventions
 .. _blogpost: http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/

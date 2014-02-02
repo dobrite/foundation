@@ -12,11 +12,12 @@ nginx_http_params:
 
 nginx_sites: "none"
 
-# example only
+# example only - use any key values accepted by nginx
 #- server:
 #    file_name: bar
 #    listen: 9090
 #    server_name: ansible
+#    charset: utf-8
 #    root: "/tmp/site2"
 #    location1:
 #        name: /

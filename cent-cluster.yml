@@ -6,6 +6,11 @@
 
 - hosts: centredis
   sudo: true
+  vars:
+    redis_bind_address: "{{ hostvars['centredis-1'].ansible_local.config.ip.private }}"
+    redis_port: 6395
+    redis_requirepass: true
+    redis_pass: anotherbadone
   roles:
     - redis
 
@@ -18,11 +23,15 @@
     _pg_db_user: cent_structure
   roles:
     - role: centrifuge
-      cent_pg_host: "{{ hostvars['centlb-1'].ansible_local.config.ip.private }}"
-      cent_pg_port: "{{ _pg_port }}"
-      cent_pg_name: "{{ _pg_db_name }}"
-      cent_pg_password: "{{ _pg_pass }}"
-      cent_pg_user: "{{ _pg_db_user }}"
+      cent_conf:
+        pg_host: "{{ hostvars['centlb-1'].ansible_local.config.ip.private }}"
+        pg_port: "{{ _pg_port }}"
+        pg_name: "{{ _pg_db_name }}"
+        pg_password: "{{ _pg_pass }}"
+        pg_user: "{{ _pg_db_user }}"
+        redis_host: "{{ hostvars['centredis-1'].ansible_local.config.ip.private }}"
+        redis_port: 6395
+        redis_password: anotherbadone
 
 - hosts: centlb
   sudo: true

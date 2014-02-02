@@ -1,4 +1,4 @@
-# {{ansible_managed}}
+# {{ ansible_managed }}
 
 # Redis configuration file example
 
@@ -36,22 +36,22 @@
 
 # By default Redis does not run as a daemon. Use 'yes' if you need it.
 # Note that Redis will write a pid file in /var/run/redis.pid when daemonized.
-daemonize {{redis_daemonize}}
+daemonize {{ redis_daemonize }}
 
 # When running daemonized, Redis writes a pid file in /var/run/redis.pid by
 # default. You can specify a custom pid file location here.
-pidfile {{redis_pidfile}}
+pidfile {{ redis_pidfile }}
 
 # Accept connections on the specified port, default is 6379.
 # If port 0 is specified Redis will not listen on a TCP socket.
-port {{redis_port}}
+port {{ redis_port }}
 
 # By default Redis listens for connections from all the network interfaces
 # available on the server. It is possible to listen to just one or multiple
 # interfaces using the "bind" configuration directive, followed by one or
 # more IP addresses.
 #
-bind {{redis_bind_address}}
+bind {{ redis_bind_address }}
 
 # Specify the path for the Unix socket that will be used to listen for
 # incoming connections. There is no default, so Redis will not listen
@@ -61,7 +61,7 @@ bind {{redis_bind_address}}
 # unixsocketperm 755
 
 # Close the connection after a client is idle for N seconds (0 to disable)
-timeout {{redis_connection_timeout}}
+timeout {{ redis_connection_timeout }}
 
 # TCP keepalive.
 #
@@ -77,7 +77,7 @@ timeout {{redis_connection_timeout}}
 # On other kernels the period depends on the kernel configuration.
 #
 # A reasonable value for this option is 60 seconds.
-tcp-keepalive {{redis_tcp_keepalive}}
+tcp-keepalive {{ redis_tcp_keepalive }}
 
 # Specify the server verbosity level.
 # This can be one of:
@@ -85,27 +85,27 @@ tcp-keepalive {{redis_tcp_keepalive}}
 # verbose (many rarely useful info, but not a mess like the debug level)
 # notice (moderately verbose, what you want in production probably)
 # warning (only very important / critical messages are logged)
-loglevel {{redis_loglevel}}
+loglevel {{ redis_loglevel }}
 
 # Specify the log file name. Also the empty string can be used to force
 # Redis to log on the standard output. Note that if you use standard
 # output for logging but daemonize, logs will be sent to /dev/null
-logfile {{redis_logfile}}
+logfile {{ redis_logfile }}
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
-syslog-enabled {{redis_syslog_enabled}}
+syslog-enabled {{ redis_syslog_enabled }}
 
 # Specify the syslog identity.
-syslog-ident {{redis_syslog_ident}}
+syslog-ident {{ redis_syslog_ident }}
 
 # Specify the syslog facility. Must be USER or between LOCAL0-LOCAL7.
-syslog-facility {{redis_syslog_facility}}
+syslog-facility {{ redis_syslog_facility }}
 
 # Set the number of databases. The default database is DB 0, you can select
 # a different one on a per-connection basis using SELECT <dbid> where
 # dbid is a number between 0 and 'databases'-1
-databases {{redis_databases}}
+databases {{ redis_databases }}
 
 ################################ SNAPSHOTTING  ################################
 #
@@ -164,7 +164,7 @@ rdbcompression yes
 rdbchecksum yes
 
 # The filename where to dump the DB
-dbfilename {{redis_dbfilename}}
+dbfilename {{ redis_dbfilename }}
 
 # The working directory.
 #
@@ -174,7 +174,7 @@ dbfilename {{redis_dbfilename}}
 # The Append Only File will also be created inside this directory.
 #
 # Note that you must specify a directory here, not a file name.
-dir {{redis_db_dir}}
+dir {{ redis_db_dir }}
 
 ################################# REPLICATION #################################
 
@@ -191,8 +191,8 @@ dir {{redis_db_dir}}
 #
 
 {% if redis_role == 'slave' %}
-slaveof {{redis_master_ip}} {{redis_master_port}}
-masterauth {{redis_master_auth}}
+slaveof {{ redis_master_ip }} {{ redis_master_port }}
+masterauth {{ redis_master_auth }}
 slave-serve-stale-data yes
 {% endif %}
 
@@ -364,7 +364,7 @@ requirepass {{ redis_pass }}
 # Once the limit is reached Redis will close all the new connections sending
 # an error 'max number of clients reached'.
 #
-maxclients {{redis_max_clients}}
+maxclients {{ redis_max_clients }}
 
 # Don't use more memory than the specified amount of bytes.
 # When the memory limit is reached Redis will try to remove keys
@@ -389,7 +389,7 @@ maxclients {{redis_max_clients}}
 # limit for maxmemory so that there is some free RAM on the system for slave
 # output buffers (but this is not needed if the policy is 'noeviction').
 #
-maxmemory {{redis_max_memory}}
+maxmemory {{ redis_max_memory }}
 
 # MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
 # is reached. You can select among five behaviors:
@@ -410,7 +410,7 @@ maxmemory {{redis_max_memory}}
 #       zunionstore zinterstore hset hsetnx hmset hincrby incrby decrby
 #       getset mset msetnx exec sort
 #
-maxmemory-policy {{redis_maxmemory_policy}}
+maxmemory-policy {{ redis_maxmemory_policy }}
 
 # LRU and minimal TTL algorithms are not precise algorithms but approximated
 # algorithms (in order to save memory), so you can select as well the sample
@@ -470,7 +470,7 @@ appendfilename "appendonly.aof"
 # If unsure, use "everysec".
 
 # appendfsync always
-appendfsync {{redis_appendfsync}}
+appendfsync {{ redis_appendfsync }}
 # appendfsync no
 
 # When the AOF fsync policy is set to always or everysec, and a background
@@ -708,4 +708,3 @@ hz 10
 # in order to commit the file to the disk more incrementally and avoid
 # big latency spikes.
 aof-rewrite-incremental-fsync yes
-

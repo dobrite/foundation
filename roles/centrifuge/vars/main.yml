@@ -1,3 +1,4 @@
 ---
-cent_storage_class: postgresql
-cent_state_class: redis
+cent_conf:
+  storage_class: postgresql
+  state_class: redis

@@ -1,6 +1,6 @@
 ---
 admin_username: dave
-admin_public_key_path: ~/.ssh/digital_ocean_id_rsa.pub
+admin_public_key_path: ~/.ssh/digital_ocean_ender_id_rsa.pub
 ssh_port: 8060
 postgres_db_user_password: W($tw8obyvsleytn@!@
 vms:

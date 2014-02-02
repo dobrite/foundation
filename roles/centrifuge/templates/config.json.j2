@@ -1,25 +1,25 @@
 {
-    "password": "{{cent_password}}",
-    "cookie_secret": "{{cent_cookie_secret}}",
-    "api_secret": "{{cent_api_secret}}",
+    "password": "{{ cent_conf.password }}",
+    "cookie_secret": "{{ cent_conf.cookie_secret }}",
+    "api_secret": "{{ cent_conf.api_secret }}",
     "structure": {
-        "storage": "centrifuge.structure.{{cent_storage_class}}.Storage",
-        "update_interval": {{cent_update_interval}},
+        "storage": "centrifuge.structure.{{ cent_conf.storage_class }}.Storage",
+        "update_interval": {{ cent_conf.update_interval }},
         "settings": {
-            "host": "{{cent_pg_host}}",
-            "port": {{cent_pg_port}},
-            "name": "{{cent_pg_name}}",
-            "password": "{{cent_pg_password}}",
-            "user": "{{cent_pg_user}}",
-            "pool_size": {{cent_pg_pool_size}}
+            "host": "{{ cent_conf.pg_host }}",
+            "port": {{ cent_conf.pg_port }},
+            "name": "{{ cent_conf.pg_name }}",
+            "password": "{{ cent_conf.pg_password }}",
+            "user": "{{ cent_conf.pg_user }}",
+            "pool_size": {{ cent_conf.pg_pool_size }}
         }
     },
    "state": {
-        "storage": "centrifuge.state.{{cent_state_class}}.State",
+        "storage": "centrifuge.state.{{ cent_conf.state_class }}.State",
         "settings": {
-            "host": "{{cent_redis_host}}",
-            "port": {{cent_redis_port}},
-            "password": "{{cent_redis_password}}"
+            "host": "{{ cent_conf.redis_host }}",
+            "port": {{ cent_conf.redis_port }},
+            "password": "{{ cent_conf.redis_password }}"
         }
     }
 }
