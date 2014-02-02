@@ -52,9 +52,10 @@ Vagrantfile.json
 Vagrantfile
 
 # ansible (api keys, etc)
-all.yml
-postgres.yml
-redis.yml
+priv.yml
+groups_vars/all.yml
+groups_vars/postgres.yml
+group_vars/redis.yml
 
 notes
 

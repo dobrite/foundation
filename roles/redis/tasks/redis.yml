@@ -1,0 +1,33 @@
+---
+- name: install deps for apt_repository
+  apt: pkg={{ item }}
+       state=latest
+  with_items:
+    - python-pycurl
+    - python-apt
+
+- name: add redis ppa
+  apt_repository: repo='deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu precise main'
+
+- name: add redis ppa key
+  apt_key: url='http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12'
+
+- name: install redis-server 2.8.4
+  apt: name=redis-server=2:2.8.4-1chl1~precise1
+       update_cache=true
+
+- name: Copy the redis configuration file
+  template: src=redis.conf.j2
+            dest={{ redis_conf_dest }}
+  notify:
+   - restart redis
+
+- name: Set the kernel paramter for vm overcommit
+  sysctl: name=vm.overcommit_memory
+          value=1
+          state=present
+
+- name: start the redis service
+  service: name=redis-server
+           state=started
+           enabled=yes

@@ -1,0 +1,66 @@
+# https://github.com/zzet/ansible-postgresql-role
+---
+- name: install deps for apt_repository
+  apt: pkg={{ item }}
+       state=latest
+  with_items:
+    - python-pycurl
+    - python-apt
+
+- name: add postgres apt repo key
+  apt_key: id=ACCC4CF8
+           url=https://www.postgresql.org/media/keys/ACCC4CF8.asc
+           state=present
+
+- name: add postgres apt repo
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main'
+                  update_cache=yes
+                  state=present
+
+- name: install postgres {{pg_version}}
+  apt: pkg=postgresql-{{pg_version}}
+       state=latest
+       update_cache=true
+  register: db_setup
+  environment: pg_proxy_env
+
+- name: install postgres-contrib {{pg_version}}
+  apt: pkg=postgresql-contrib-{{pg_version}}
+       state=latest
+       update_cache=true
+  environment: pg_proxy_env
+
+- name: setup postgres cluster to default to utf8 | stop cluster
+  # if the dbs haven't been created yet, we want to destroy the whole db
+  # cluster and recreate it with proper utf8 support.
+  sudo_user: postgres
+  shell: pg_dropcluster --stop {{pg_version}} main
+  when: db_setup.changed or pg_recreate_cluster
+
+- name: setup postgres cluster to default to utf8 | start cluster
+  # if the dbs haven't been created yet, we want to destroy the whole db
+  # cluster and recreate it with proper utf8 support. From http://ph.ly/pg
+  sudo_user: postgres
+  shell: pg_createcluster --start -e {{pg_encoding}} --locale {{pg_locale}} {{pg_version}} main
+  when: db_setup.changed or pg_recreate_cluster
+
+- name: update pg_hba.conf file
+  template: src=pg_hba.conf.j2
+            dest=/etc/postgresql/{{pg_version}}/main/pg_hba.conf
+            owner=postgres
+            group=postgres
+            mode=0640
+  notify: restart postgresql
+
+- name: update postgresql.conf file
+  template: src=postgresql.conf.j2
+            dest=/etc/postgresql/{{pg_version}}/main/postgresql.conf
+            owner=postgres
+            group=postgres
+            mode=0644
+  notify: restart postgresql
+
+- name: ensure postgresql server is running
+  service: name=postgresql
+           state=running
+           enabled=yes
