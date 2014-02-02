@@ -2,11 +2,11 @@
 - name: grant privileges on databases
   sudo_user: postgres
   postgresql_privs: >
-    database=item.database
+    database={{ item.database }}
     state=present
     privs=ALL
     type=database
-    role=item.user
+    role={{ item.user }}
     host=localhost
     port={{ pg_cfg_srv_listen_port }}
   with_items: pg_database_config
