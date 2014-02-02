@@ -49,20 +49,19 @@ dopy expects env vars with client id and api key:
 
 TODO:
 =====
-* Do we need local.yaml (above)?
 * Fail2Ban and/or denyhosts: here_
-* Can we bootstrap project with ansible rather than make?
 * the blogpost_ here has notes on postgres user dialog and system level users
   too
+* Use system users for cent, app etc.
 * create postgres superuser and give user postgres a password
-* use meta folder to factor out common role
-* move group_vars to var folder in role - that's where they belong
+* use meta folder to factor out dependencies (apt_repo, etc.)
 * paramterize python 3 version python3.{{python_version}} or similar
 * convert centrifuge nginx conf into a site.yaml compatible template
 * refactor to follow `ansible coding conventions`_.
 * maybe use periods to separate tags on hostnames inventory_hostname_short_ will only use up to first dot
-* Use system users for cent, app etc.
 * known host_
+* centlb nginx site "none" needs fixed
+* add var to pg task ports
 
 .. _conventions: https://github.com/edx/configuration/wiki/Ansible-Coding-Conventions
 .. _blogpost: http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/

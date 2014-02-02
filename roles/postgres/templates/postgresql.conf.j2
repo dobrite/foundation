@@ -58,7 +58,7 @@ external_pid_file = '/var/run/postgresql/{{pg_version}}-main.pid' # write an ext
 
 # - Connection Settings -
 
-listen_addresses = '{{pg_cfg_srv_listen_addresses}}'
+listen_addresses = 'localhost, {{pg_cfg_srv_listen_addresses}}'
 # what IP address(es) to listen on;
 # comma-separated list of addresses;
 # defaults to 'localhost'; use '*' for all

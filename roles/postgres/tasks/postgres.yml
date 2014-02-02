@@ -17,16 +17,16 @@
                   update_cache=yes
                   state=present
 
-- name: install postgres {{pg_version}}
-  apt: pkg=postgresql-{{pg_version}}
-       state=latest
+- name: install postgres {{ pg_version }}
+  apt: pkg=postgresql-{{ pg_version }}
+       state=present
        update_cache=true
   register: db_setup
   environment: pg_proxy_env
 
 - name: install postgres-contrib {{pg_version}}
   apt: pkg=postgresql-contrib-{{pg_version}}
-       state=latest
+       state=present
        update_cache=true
   environment: pg_proxy_env
 
@@ -46,7 +46,7 @@
 
 - name: update pg_hba.conf file
   template: src=pg_hba.conf.j2
-            dest=/etc/postgresql/{{pg_version}}/main/pg_hba.conf
+            dest=/etc/postgresql/{{ pg_version }}/main/pg_hba.conf
             owner=postgres
             group=postgres
             mode=0640
@@ -54,7 +54,7 @@
 
 - name: update postgresql.conf file
   template: src=postgresql.conf.j2
-            dest=/etc/postgresql/{{pg_version}}/main/postgresql.conf
+            dest=/etc/postgresql/{{ pg_version }}/main/postgresql.conf
             owner=postgres
             group=postgres
             mode=0644
@@ -64,3 +64,14 @@
   service: name=postgresql
            state=running
            enabled=yes
+
+- name: assign password to postgres user
+  sudo_user: postgres
+  postgresql_user: >
+    user=postgres
+    state=present
+    password={{ postgres_db_user_password }}
+
+- name: restart to get new config to load
+  service: name=postgresql
+           state=restarted

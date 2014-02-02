@@ -25,7 +25,10 @@ vclean:
 vmachine:
 	ansible-playbook -i vagrant_inventory site.yml
 
+vcent:
+	ansible-playbook -i vagrant_inventory cent-cluster.yml
+
 v:
 	ansible-playbook -i 'localhost,' vagrant.yml
 
-vall: | v vmachine
+vall: | v vcent
