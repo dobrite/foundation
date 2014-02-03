@@ -50,7 +50,7 @@ dopy expects env vars with client id and api key:
 TODO:
 =====
 * Fail2Ban and/or denyhosts: here_
-* use ufw as a front end to iptables
+* use ufw as a front end to iptables or linode has a nice guide on using a text file.
 * the blogpost_ here has notes on postgres user dialog and system level users too
 * Use system users for cent, app etc.
 * paramterize python 3 version python3.{{python_version}} or similar
