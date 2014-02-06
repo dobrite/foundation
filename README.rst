@@ -62,6 +62,7 @@ TODO:
 * add var to pg task ports
 * add all returned data from instance provisioning to facts.d
 * make note about hash merge behaviour in ansible.cfg
+* should we split out centrifuge into its own repo?
 
 .. _conventions: https://github.com/edx/configuration/wiki/Ansible-Coding-Conventions
 .. _blogpost: http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/
