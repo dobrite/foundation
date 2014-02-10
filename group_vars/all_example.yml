@@ -2,6 +2,7 @@
 admin_username: <username>
 admin_public_key_path: <full path to pub key>
 ssh_port: <port>
+postgres_db_user_password: <pass>
 vms:
   - app-1
   - postgres-1

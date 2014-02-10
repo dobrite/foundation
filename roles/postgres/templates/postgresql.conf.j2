@@ -1,4 +1,4 @@
-# {{ansible_managed}}
+# {{ ansible_managed }}
 
 # -----------------------------
 # PostgreSQL configuration file
@@ -40,15 +40,15 @@
 # The default values of these variables are driven from the -D command-line
 # option or PGDATA environment variable, represented here as ConfigDir.
 
-data_directory = '/var/lib/postgresql/{{pg_version}}/main' # use data in another directory
+data_directory = '/var/lib/postgresql/{{ pg_version }}/main' # use data in another directory
 # (change requires restart)
-hba_file = '/etc/postgresql/{{pg_version}}/main/pg_hba.conf' # host-based authentication file
+hba_file = '/etc/postgresql/{{ pg_version }}/main/pg_hba.conf' # host-based authentication file
 # (change requires restart)
-ident_file = '/etc/postgresql/{{pg_version}}/main/pg_ident.conf' # ident configuration file
+ident_file = '/etc/postgresql/{{ pg_version }}/main/pg_ident.conf' # ident configuration file
 # (change requires restart)
 
 # If external_pid_file is not explicitly set, no extra PID file is written.
-external_pid_file = '/var/run/postgresql/{{pg_version}}-main.pid' # write an extra PID file
+external_pid_file = '/var/run/postgresql/{{ pg_version }}-main.pid' # write an extra PID file
 # (change requires restart)
 
 
@@ -58,22 +58,22 @@ external_pid_file = '/var/run/postgresql/{{pg_version}}-main.pid' # write an ext
 
 # - Connection Settings -
 
-listen_addresses = 'localhost, {{pg_cfg_srv_listen_addresses}}'
+listen_addresses = 'localhost, {{ pg_cfg_srv_listen_addresses }}'
 # what IP address(es) to listen on;
 # comma-separated list of addresses;
 # defaults to 'localhost'; use '*' for all
 # (change requires restart)
-port = {{pg_cfg_srv_listen_port}}
+port = {{ pg_cfg_srv_listen_port }}
 # (change requires restart)
-max_connections = {{pg_cfg_srv_max_connections}}
+max_connections = {{ pg_cfg_srv_max_connections }}
 # (change requires restart)
 # Note:  Increasing max_connections costs ~400 bytes of shared memory per
 # connection slot, plus lock space (see max_locks_per_transaction).
-superuser_reserved_connections = {{pg_cfg_srv_superuser_reserved_connections}} # (change requires restart)
-unix_socket_directories = '{{pg_cfg_srv_unix_socket_directory}}' # comma-separated list of directories
+superuser_reserved_connections = {{ pg_cfg_srv_superuser_reserved_connections }} # (change requires restart)
+unix_socket_directories = '{{ pg_cfg_srv_unix_socket_directory }}' # comma-separated list of directories
 # (change requires restart)
-unix_socket_group = '{{pg_cfg_srv_unix_socket_group}}' # (change requires restart)
-unix_socket_permissions = '{{pg_cfg_srv_unix_socket_permissions}}' # begin with 0 to use octal notation
+unix_socket_group = '{{ pg_cfg_srv_unix_socket_group }}' # (change requires restart)
+unix_socket_permissions = '{{ pg_cfg_srv_unix_socket_permissions }}' # begin with 0 to use octal notation
 # (change requires restart)
 #bonjour = off # advertise server via Bonjour
 # (change requires restart)
@@ -116,7 +116,7 @@ ssl_key_file = '/etc/ssl/private/ssl-cert-snakeoil.key' # (change requires resta
 
 # - Memory -
 
-shared_buffers = {{pg_cfg_srv_effective_cache_size}} # min 128kB
+shared_buffers = {{ pg_cfg_srv_effective_cache_size }} # min 128kB
 # (change requires restart)
 #temp_buffers = 8MB # min 800kB
 #max_prepared_transactions = 0 # zero disables the feature
@@ -125,7 +125,7 @@ shared_buffers = {{pg_cfg_srv_effective_cache_size}} # min 128kB
 # per transaction slot, plus lock space (see max_locks_per_transaction).
 # It is not advisable to set max_prepared_transactions nonzero unless you
 # actively intend to use prepared transactions.
-work_mem = {{pg_cfg_srv_work_mem}} # min 64kB
+work_mem = {{ pg_cfg_srv_work_mem }} # min 64kB
 #maintenance_work_mem = 16MB # min 1MB
 #max_stack_depth = 2MB # min 100kB
 
@@ -272,7 +272,7 @@ work_mem = {{pg_cfg_srv_work_mem}} # min 64kB
 #cpu_tuple_cost = 0.01 # same scale as above
 #cpu_index_tuple_cost = 0.005 # same scale as above
 #cpu_operator_cost = 0.0025 # same scale as above
-effective_cache_size = {{pg_cfg_srv_effective_cache_size}}
+effective_cache_size = {{ pg_cfg_srv_effective_cache_size }}
 
 # - Genetic Query Optimizer -
 
@@ -518,11 +518,11 @@ timezone = 'UTC'
 # encoding
 
 # These settings are initialized by initdb, but they can be changed.
-lc_messages = '{{pg_locale}}' # locale for system error message
+lc_messages = '{{ pg_locale }}' # locale for system error message
 # strings
-lc_monetary = '{{pg_locale}}' # locale for monetary formatting
-lc_numeric = '{{pg_locale}}' # locale for number formatting
-lc_time = '{{pg_locale}}' # locale for time formatting
+lc_monetary = '{{ pg_locale }}' # locale for monetary formatting
+lc_numeric = '{{ pg_locale }}' # locale for number formatting
+lc_time = '{{ pg_locale }}' # locale for time formatting
 
 # default configuration for text search
 default_text_search_config = 'pg_catalog.english'

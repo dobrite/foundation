@@ -1,11 +1,11 @@
 ---
 pg_cfg_pg_hba_default:
-  - {type: local, database: all, user: postgres, address: '',             method: trust, comment: ''}
-  - {type: local, database: all, user: all,      address: '',             method: trust, comment: '"local" is for Unix domain socket connections only'}
-  - {type: host,  database: all, user: all,      address: '127.0.0.1/32', method: trust, comment: 'IPv4 local connections:'}
-  - {type: host,  database: all, user: all,      address: '::1/128',      method: trust, comment: 'IPv6 local connections:'}
+  - { type: local, database: all, user: postgres, address: '',             method: trust, comment: '' }
+  - { type: local, database: all, user: all,      address: '',             method: trust, comment: '"local" is for Unix domain socket connections only' }
+  - { type: host,  database: all, user: all,      address: '127.0.0.1/32', method: trust, comment: 'IPv4 local connections:' }
+  - { type: host,  database: all, user: all,      address: '::1/128',      method: trust, comment: 'IPv6 local connections:' }
 
 pg_database_config:
-  - {database: wwc_production, user: wwc_production, password: notagoodone@#$1}
-  - {database: wwc_staging,    user: wwc_staging,    password: anothernotsogoodone$#$%^#}
-  - {database: wwc_test,       user: wwc_test,       password: areallybadone*(!293810}
+  - { database: wwc_production, user: wwc_production, password: notagoodone@#$1}
+  - { database: wwc_staging,    user: wwc_staging,    password: anothernotsogoodone$#$%^#}
+  - { database: wwc_test,       user: wwc_test,       password: areallybadone*(!293810}

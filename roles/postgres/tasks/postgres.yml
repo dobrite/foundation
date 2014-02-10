@@ -24,8 +24,8 @@
   register: db_setup
   environment: pg_proxy_env
 
-- name: install postgres-contrib {{pg_version}}
-  apt: pkg=postgresql-contrib-{{pg_version}}
+- name: install postgres-contrib {{ pg_version }}
+  apt: pkg=postgresql-contrib-{{ pg_version }}
        state=present
        update_cache=true
   environment: pg_proxy_env
@@ -34,14 +34,14 @@
   # if the dbs haven't been created yet, we want to destroy the whole db
   # cluster and recreate it with proper utf8 support.
   sudo_user: postgres
-  shell: pg_dropcluster --stop {{pg_version}} main
+  shell: pg_dropcluster --stop {{ pg_version }} main
   when: db_setup.changed or pg_recreate_cluster
 
 - name: setup postgres cluster to default to utf8 | start cluster
   # if the dbs haven't been created yet, we want to destroy the whole db
   # cluster and recreate it with proper utf8 support. From http://ph.ly/pg
   sudo_user: postgres
-  shell: pg_createcluster --start -e {{pg_encoding}} --locale {{pg_locale}} {{pg_version}} main
+  shell: pg_createcluster --start -e {{ pg_encoding }} --locale {{ pg_locale }} {{ pg_version }} main
   when: db_setup.changed or pg_recreate_cluster
 
 - name: update pg_hba.conf file

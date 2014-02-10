@@ -6,7 +6,7 @@
     groups=sudo
     shell=/bin/bash
 
-- name: add ssh pubkey to authorized_keys for user {{admin_username}}
+- name: add ssh pubkey to authorized_keys for user {{ admin_username }}
   authorized_key: >
     user={{ admin_username }}
     key="{{ item }}"

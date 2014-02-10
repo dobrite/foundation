@@ -7,10 +7,10 @@ pg_recreate_cluster: false
 
 # pg_hba.conf
 pg_cfg_pg_hba_default:
-  - {type: local, database: all, user: postgres, address: "",             method: peer, comment: ""}
-  - {type: local, database: all, user: all,      address: "",             method: peer, comment: '"local" is for Unix domain socket connections only'}
-  - {type: host,  database: all, user: all,      address: '127.0.0.1/32', method: md5, comment: 'IPv4 local connections:'}
-  - {type: host,  database: all, user: all,      address: '::1/128',      method: md5, comment: 'IPv6 local connections:'}
+  - { type: local, database: all, user: postgres, address: "",             method: peer, comment: "" }
+  - { type: local, database: all, user: all,      address: "",             method: peer, comment: '"local" is for Unix domain socket connections only' }
+  - { type: host,  database: all, user: all,      address: '127.0.0.1/32', method: md5, comment: 'IPv4 local connections:' }
+  - { type: host,  database: all, user: all,      address: '::1/128',      method: md5, comment: 'IPv6 local connections:' }
 
 # postgresql.conf settings
 pg_cfg_pg_hba_passwd_hosts: []
@@ -31,5 +31,5 @@ pg_cfg_srv_work_mem: '8MB'
 pg_cfg_srv_effective_cache_size: '128MB'
 
 pg_proxy_env:
-  LC_ALL: "{{pg_locale}}"
-  LANG: "{{pg_locale}}"
+  LC_ALL: "{{ pg_locale }}"
+  LANG: "{{ pg_locale }}"

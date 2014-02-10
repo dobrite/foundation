@@ -9,7 +9,7 @@
         state=present
         box_name=precise64
         box_path=http://files.vagrantup.com/precise64.box
-        vm_name={{item}}
+        vm_name={{ item }}
       with_items: vms
       register: vagrant
 

@@ -1,7 +1,7 @@
 # https://github.com/zzet/ansible-postgresql-role
 ---
 - name: install deps for postgres tasks
-  apt: pkg={{item}}
+  apt: pkg={{ item }}
        state=present
        update_cache=true
        cache_valid_time=3600

@@ -1,13 +1,13 @@
-#{{ansible_managed}}
+# {{ ansible_managed }}
 
 user              www-data;
 
-worker_processes  {{ansible_processor_count}};
+worker_processes  {{ ansible_processor_count }};
 pid        /var/run/nginx.pid;
 
 
 events {
-    worker_connections  {{nginx_max_clients}};
+    worker_connections  {{ nginx_max_clients }};
 }
 
 
@@ -15,7 +15,7 @@ http {
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
 {% for k,v in nginx_http_params.iteritems() %}
-        {{k}}  {{v}};
+        {{ k }}  {{ v }};
 {% endfor %}
 
         gzip on;
