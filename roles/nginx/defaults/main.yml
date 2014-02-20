@@ -1,5 +1,6 @@
 ---
 nginx_max_clients: 512
+nginx_use_epoll: false
 
 nginx_http_params:
   sendfile: "on"
