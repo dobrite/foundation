@@ -440,7 +440,7 @@ maxmemory-policy {{ redis_maxmemory_policy }}
 #
 # Please check http://redis.io/topics/persistence for more information.
 
-appendonly {{ redis_appendonly }}
+appendonly no
 
 # The name of the append only file (default: "appendonly.aof")
 
@@ -531,6 +531,51 @@ auto-aof-rewrite-min-size 64mb
 #
 # Set it to 0 or a negative value for unlimited execution without warnings.
 lua-time-limit 5000
+
+################################ REDIS CLUSTER  ###############################
+#
+# Normal Redis instances can't be part of a Redis Cluster; only nodes that are
+# started as cluster nodes can. In order to start a Redis instance as a
+# cluster node enable the cluster support uncommenting the following:
+#
+cluster-enabled {{ redis_cluster_enabled }}
+
+# Every cluster node has a cluster configuration file. This file is not
+# intended to be edited by hand. It is created and updated by Redis nodes.
+# Every Redis Cluster node requires a different cluster configuration file.
+# Make sure that instances running in the same system does not have
+# overlapping cluster configuration file names.
+#
+cluster-config-file {{ redis_cluster_config_file }}
+
+# Cluster node timeout is the amount of milliseconds a node must be unreachable 
+# for it to be considered in failure state.
+# Most other internal time limits are multiple of the node timeout.
+#
+
+cluster-node-timeout {{ redis_cluster_node_timeout }}
+
+# Cluster slaves are able to migrate to orphaned masters, that are masters
+# that are left without working slaves. This improves the cluster ability
+# to resist to failures as otherwise an orphaned master can't be failed over
+# in case of failure if it has no working slaves.
+#
+# Slaves migrate to orphaned masters only if there are still at least a
+# given number of other working slaves for their old master. This number
+# is the "migration barrier". A migration barrier of 1 means that a slave
+# will migrate only if there is at least 1 other working slave for its master
+# and so forth. It usually reflects the number of slaves you want for every
+# master in your cluster.
+#
+# Default is 1 (slaves migrate only if their masters remain with at least
+# one slave). To disable migration just set it to a very large value.
+# A value of 0 can be set but is useful only for debugging and dangerous
+# in production.
+#
+cluster-migration-barrier {{ redis_cluster_migration_barrier }}
+
+# In order to setup your cluster make sure to read the documentation
+# available at http://redis.io web site.
 
 ################################## SLOW LOG ###################################
 

@@ -1,0 +1,68 @@
+---
+- name: install reqs for redis
+  apt: pkg={{ item }}
+       state=latest
+       update_cache=true
+       cache_valid_time=3600
+  with_items:
+    - wget
+    - make
+    - build-essential
+
+- name: download redis 3.0.0 beta 1
+  command: wget https://github.com/antirez/redis/archive/3.0.0-beta1.tar.gz
+           chdir=/tmp
+           creates=/tmp/3.0.0-beta1.tar.gz
+
+- name: untar redis into /tmp directory
+  command: tar -xzvf /tmp/3.0.0-beta1.tar.gz
+           chdir=/tmp
+           creates=/tmp/redis-3.0.0-beta1
+
+- name: compile redis and install
+  shell: make && make install
+           chdir=/tmp/redis-3.0.0-beta1
+           creates=/tmp/redis-3.0.0-beta1/src/redis-server
+
+- name: create the /etc/redis folder
+  file: state=directory
+        path={{ item }}
+  with_items:
+    - /etc/redis
+    - /var/log/redis
+    - /var/lib/redis
+
+- name: copy the init.d redis file
+  template: src=init.d.redis.j2
+            dest=/etc/init.d/redis-server
+            owner=root
+            group=root
+            mode=0755
+  notify:
+   - restart redis
+
+- name: copy the redis configuration file
+  template: src=redis.conf.j2
+            dest={{ redis_conf_dest }}
+            owner=root
+            group=root
+            mode=0644
+  notify:
+   - restart redis
+
+- name: create the log file
+  file: path={{ redis_logfile }}
+        owner=root
+        group=root
+        mode=0644
+        state=touch
+
+- name: set the kernel paramter for vm overcommit
+  sysctl: name=vm.overcommit_memory
+          value=1
+          state=present
+
+- name: start the redis service
+  service: name=redis-server
+           state=started
+           enabled=yes
