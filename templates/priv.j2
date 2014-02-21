@@ -1,7 +1,0 @@
-{% if vagrant is defined %}
----
-vagrant_private_ips:
-{% for vagrant in vagrant.results %}
-  - {name: {{ vagrant.instances.0.name }}, ip: {{ vagrant.instances.0.private_ip }} }
-{% endfor %}
-{% endif %}

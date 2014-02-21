@@ -25,12 +25,6 @@
         ansible_ssh_host="{{ item.instances.0.internal_ip }}"
       with_items: vagrant.results
 
-    - name: dump private_ips
-      template: >
-        src=templates/priv.j2
-        dest=./priv.yml
-
-
 - hosts: all:!localhost
   sudo: true
   remote_user: vagrant
@@ -41,8 +35,6 @@
     - common/ssh
 
   tasks:
-    - include_vars: priv.yml
-
     - name: create the facts directory
       file: >
         state=directory
@@ -53,19 +45,8 @@
         state=present
         section=ip
         option=private
-        value="{{ item.ip }}"
+        value="{{ item.instances.0.private_ip }}"
         dest=/etc/ansible/facts.d/config.fact
         force=yes
-      with_items: vagrant_private_ips
-      when: item.name == inventory_hostname
-
-
-- hosts: localhost
-  connection: local
-  gather_facts: false
-
-  tasks:
-    - name: remove priv.yml from localhost
-      file: >
-        state=absent
-        path=./priv.yml
+      with_items: hostvars.localhost.vagrant.results
+      when: item.instances.0.name == inventory_hostname
