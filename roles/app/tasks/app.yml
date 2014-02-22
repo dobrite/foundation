@@ -1,0 +1,37 @@
+---
+- name: install deps for building psycopg2
+  apt: pkg={{ item }}
+       state=present
+       update_cache=true
+       cache_valid_time=3600
+  with_items:
+    - libpq-dev
+
+- name: clone the wwc git repo
+  git: >
+    repo=https://github.com/dobrite/wwc.git
+    dest=/opt/wwc
+
+- name: make the environment
+  shell: >
+    PATH=$PATH:/opt/python-3.3.3/bin make env
+    chdir=/opt/wwc/
+
+- name: template out centrifuge project_id
+  ini_file: >
+    dest=/opt/wwc/wwc/centrifuge.ini
+    section=centrifuge
+    option=centrifuge.project_id
+    value="{{ project_id }}"
+
+- name: template out centrifuge secret_key
+  ini_file: >
+    dest=/opt/wwc/wwc/centrifuge.ini
+    section=centrifuge
+    option=centrifuge.secret_key
+    value="{{ secret_key }}"
+
+- name: give ownership to app
+  command: >
+    chown -R app:app wwc
+    chdir=/opt/

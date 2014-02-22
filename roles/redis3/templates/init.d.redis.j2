@@ -38,6 +38,10 @@ case "$1" in
                 echo "Redis stopped"
         fi
         ;;
+    restart|force-reload)
+        ${0} stop
+        ${0} start
+        ;;
     *)
         echo "Please use start or stop as first argument"
         ;;

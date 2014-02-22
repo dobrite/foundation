@@ -1,0 +1,12 @@
+---
+- name: create the group app
+  group: >
+    name=app
+    state=present
+
+- name: create user app
+  user: >
+    name=app
+    group=app
+    state=present
+    createhome=no

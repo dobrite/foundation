@@ -3,36 +3,5 @@
   sudo: true
   roles:
     - common
-
-- hosts: centredis
-  sudo: true
-  roles:
-    - redis
-
-- hosts: cent
-  sudo: true
-  roles:
-    - centrifuge
-
-- hosts: centlb
-  sudo: true
-  roles:
-    - postgres
-    - role: nginx
-      nginx_sites: "none"
-
-  tasks:
-    - name: copy the centrifuge nginx configuration file
-      template: >
-        src=roles/nginx/templates/centrifuge.nginx.conf.j2
-        dest=/etc/nginx/sites-available/centrifuge.nginx.conf
-      notify:
-        - reload nginx
-
-    - name: create the link for site enabled specific configurations
-      file: >
-        path=/etc/nginx/sites-enabled/centrifuge.nginx.conf
-        state=link
-        src=/etc/nginx/sites-available/centrifuge.nginx.conf
-      notify:
-        - reload nginx
+    - python
+    - app

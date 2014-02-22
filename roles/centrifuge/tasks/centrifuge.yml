@@ -1,0 +1,51 @@
+---
+- name: install deps for building psycopg2
+  apt: >
+    pkg={{ item }}
+    state=present
+    update_cache=true
+    cache_valid_time=3600
+  with_items:
+    - libpq-dev
+
+- include: "{{ inventory_dir }}/roles/common/tasks/virtualenv3.yml"
+  vars:
+    virtualenv3_location: /opt/centrifuge/env33
+
+# TODO pin this to a version?
+- name: install centrifuge and cent
+  pip: >
+    name={{ item }}
+    state=present
+    executable=/opt/centrifuge/env33/bin/pip
+  with_items:
+    - centrifuge
+    - cent
+
+- name: copy over config.json
+  template: >
+    src=config.json.j2
+    dest=/opt/centrifuge/config.json
+    owner=cent
+    group=cent
+    mode=0640
+
+- name: check for initialize_cent_project.py # signal to ansible
+  shell: "[ -f /opt/centrifuge/initialize_cent_projects.py ]"
+  register: icp
+  ignore_errors: true
+  changed_when: false
+
+- name: copy over initilize_cent_projects.py
+  copy: >
+    src=initialize_cent_projects.py
+    dest=/opt/centrifuge/initialize_cent_projects.py
+    owner=cent
+    group=cent
+    mode=0640
+  when: icp.rc
+
+- name: give ownership to cent
+  command: >
+    chown -R cent:cent centrifuge
+    chdir=/opt/

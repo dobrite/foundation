@@ -1,0 +1,6 @@
+[program:centrifuge]
+process_name = centrifuge-%(process_num)s
+command = /opt/centrifuge/env33/bin/centrifuge --config=/opt/centrifuge/config.json --port=%(process_num)s --redis --redis_port={{ redis_port }}
+numprocs = 2
+numprocs_start = 8000
+user = cent

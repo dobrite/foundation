@@ -1,7 +1,12 @@
 ---
+- name: create the group cent
+  group: >
+    name=cent
+    state=present
+
 - name: create user cent
   user: >
     name=cent
+    group=cent
     state=present
-    shell=/bin/bash
-    createhome=yes
+    createhome=no

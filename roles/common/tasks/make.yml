@@ -1,6 +1,7 @@
 ---
 - name: install make
-  apt: pkg=make
-       state=latest
-       update_cache=true
-       cache_valid_time=3600
+  apt: >
+    pkg=make
+    state=latest
+    update_cache=true
+    cache_valid_time=3600

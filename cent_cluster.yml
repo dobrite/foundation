@@ -1,0 +1,88 @@
+---
+- hosts: all
+  sudo: true
+  roles:
+    - common
+
+- hosts: centpg
+  sudo: true
+  roles:
+    - role: postgres
+      pg_cfg_srv_listen_addresses: "{{ ansible_local.config.ip.private }}"
+      pg_cfg_srv_listen_port: "{{ cent_pg_port }}"
+      pg_cfg_pg_hba_custom:
+        - type: host
+          database: "{{ cent_pg_db_name }}"
+          user: "{{ cent_pg_db_user }}"
+          address: "192.168.50.0/24"
+          method: md5
+          comment: "centrifuge structure database"
+      pg_database_config:
+        - database: "{{ cent_pg_db_name }}"
+          user: "{{ cent_pg_db_user }}"
+          password: "{{ cent_pg_pass }}"
+
+- hosts: centnode
+  sudo: true
+  roles:
+    - role: redis
+    - role: nginx
+      nginx_sites: "none"
+      nginx_max_clients: 1024
+      nginx_use_epoll: true
+    - role: centrifuge
+      cent_conf:
+        pg_host: "{{ hostvars['centpg-1'].ansible_local.config.ip.private }}"
+        pg_port: "{{ cent_pg_port }}"
+        pg_name: "{{ cent_pg_db_name }}"
+        pg_password: "{{ cent_pg_pass }}"
+        pg_user: "{{ cent_pg_db_user }}"
+        redis_host: "127.0.0.1"
+        redis_port: 6395
+
+  tasks:
+    - name: copy the centrifuge nginx configuration file
+      template: >
+        src=roles/nginx/templates/centrifuge.nginx.conf.j2
+        dest=/etc/nginx/sites-available/centrifuge.nginx.conf
+      notify:
+        - reload nginx
+
+    - name: create the link for site enabled specific configurations
+      file: >
+        path=/etc/nginx/sites-enabled/centrifuge.nginx.conf
+        state=link
+        src=/etc/nginx/sites-available/centrifuge.nginx.conf
+      notify:
+        - reload nginx
+
+    - name: remove default from sites-enabled
+      file: >
+        path=/etc/nginx/sites-enabled/default
+        state=absent
+
+- hosts: centnode-1
+  sudo: true
+  tasks:
+    - name: initialize cent projects
+      sudo_user: cent
+      command: >
+        env33/bin/python initialize_cent_projects.py
+        chdir=/opt/centrifuge
+      register: cent_project
+
+    - name: set project_id var
+      set_fact: project_id={{ cent_project['stdout_lines'][0] }}
+
+    - name: set secret_key var
+      set_fact: secret_key={{ cent_project['stdout_lines'][1] }}
+
+- hosts: app
+  sudo: true
+  vars:
+    project_id: "{{ hostvars['centnode-1'].project_id }}"
+    secret_key: "{{ hostvars['centnode-1'].secret_key }}"
+  roles:
+    - python
+    - app
+    - nginx

@@ -2,7 +2,9 @@
 ---
 - name: install deps for apt_repository
   apt: pkg={{ item }}
-       state=latest
+       state=present
+       update_cache=true
+       cache_valid_time=3600
   with_items:
     - python-pycurl
     - python-apt
@@ -17,6 +19,7 @@
                   update_cache=yes
                   state=present
 
+# we need to update_cache here
 - name: install postgres {{ pg_version }}
   apt: pkg=postgresql-{{ pg_version }}
        state=present
@@ -24,6 +27,7 @@
   register: db_setup
   environment: pg_proxy_env
 
+# we need to update_cache here
 - name: install postgres-contrib {{ pg_version }}
   apt: pkg=postgresql-contrib-{{ pg_version }}
        state=present
@@ -60,9 +64,9 @@
             mode=0644
   notify: restart postgresql
 
-- name: ensure postgresql server is running
+- name: enable the postgresql service
   service: name=postgresql
-           state=running
+           state=started
            enabled=yes
 
 - name: assign password to postgres user
@@ -71,7 +75,9 @@
     user=postgres
     state=present
     password={{ postgres_db_user_password }}
+  when: db_setup.changed # hack right now to skip after initial setup
 
-- name: restart to get new config to load
+- name: restart to get new config to load but only if changed
   service: name=postgresql
            state=restarted
+  when: db_setup.changed # hack right now to skip after initial setup

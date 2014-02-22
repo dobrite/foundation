@@ -1,0 +1,23 @@
+---
+- name: install supervisor
+  apt: pkg={{ item }}
+       state=present
+       update_cache=true
+       cache_valid_time=3600
+  with_items:
+    - supervisor
+
+- name: template out the centrifuge supervisor config
+  template: >
+    src=supervisord.conf.j2
+    dest=/etc/supervisor/conf.d/centrifuge.conf
+    owner=root
+    group=root
+    mode=0640
+  notify: restart supervisor
+
+- name: enable the supervisor service
+  service: >
+    name=supervisor
+    state=started
+    enabled=yes

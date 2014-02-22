@@ -1,7 +1,7 @@
 ---
 - name: install all python 3 dependencies
   apt: pkg={{ item }}
-       state=latest
+       state=present
        update_cache=true
        cache_valid_time=3600
   with_items:
@@ -20,27 +20,34 @@
     - libxml2-dev
     - python-software-properties
 
+- name: check for python 3.3.3
+  shell: "[ -f /opt/python-3.3.3/bin/python3.3 ]"
+  register: python3
+  ignore_errors: true
+  changed_when: false
+
 - name: copy Python-3.3.3.tgz to /tmp
   copy: src=Python-3.3.3.tgz
         dest=/tmp/Python-3.3.3.tgz
         mode=0744
+  when: python3.rc
 
 - name: untar Python-3.3.3.tgz into /tmp directory
   command: tar -xzvf /tmp/Python-3.3.3.tgz
            chdir=/tmp
-           creates=/tmp/Python-3.3.3
+           creates=/opt/python-3.3.3/bin/python3.3
 
 - name: configure Python-3.3.3.tgz
   command: ./configure --prefix=/opt/python-3.3.3
            chdir=/tmp/Python-3.3.3
-           creates=/opt/python-3.3.3
+           creates=/opt/python-3.3.3/bin/python3.3
 
 - name: make Python-3.3.3.tgz
   command: make
            chdir=/tmp/Python-3.3.3
-           creates=/opt/python-3.3.3
+           creates=/opt/python-3.3.3/bin/python3.3
 
 - name: make install Python-3.3.3.tgz
   command: make install
            chdir=/tmp/Python-3.3.3
-           creates=/opt/python-3.3.3
+           creates=/opt/python-3.3.3/bin/python3.3

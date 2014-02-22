@@ -14,7 +14,7 @@
   notify:
    - restart nginx
 
-- name: create the configurations for sites
+- name: create the configurations for sites (if present)
   template: >
     src=site.j2
     dest=/etc/nginx/conf.d/{{ item.server.file_name }}.conf
@@ -23,7 +23,7 @@
   notify:
    - reload nginx
 
-- name: start the nginx service
+- name: enable the nginx service
   service: >
     name=nginx
     state=started

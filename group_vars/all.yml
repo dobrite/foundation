@@ -4,12 +4,6 @@ admin_public_key_path: ~/.ssh/digital_ocean_ender_id_rsa.pub
 ssh_port: 8060
 postgres_db_user_password: W($tw8obyvsleytn@!@
 vms:
-  - centredis-1
-    #- centredis-2
-    #- centredis-3
-    #- centredis-4
-    #- centredis-5
-    #- centredis-6
-    #- centlb-1
-    #- cent-1
-    #- cent-2
+    - centpg-1
+    - centnode-1
+    - app-1
