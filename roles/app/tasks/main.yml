@@ -1,3 +1,8 @@
 ---
 - include: user.yml
 - include: app.yml
+- include: uwsgi.yml
+
+- name: give ownership to app
+  command: >
+    chown -R app:app {{ app_location }}

@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+# Emperor uWSGI script
+
+description "uWSGI Emperor"
+start on runlevel [2345]
+stop on runlevel [06]
+
+exec {{ uwsgi_binary_location }} --emperor {{ uwsgi_config_path }}

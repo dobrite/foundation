@@ -10,28 +10,42 @@
 - name: clone the wwc git repo
   git: >
     repo=https://github.com/dobrite/wwc.git
-    dest=/opt/wwc
+    dest="{{ app_location }}"
 
 - name: make the environment
   shell: >
     PATH=$PATH:/opt/python-3.3.3/bin make env
-    chdir=/opt/wwc/
+    chdir="{{ app_location }}"
 
-- name: template out centrifuge project_id
+- name: set the sqlalchemy connection string in production.ini
   ini_file: >
-    dest=/opt/wwc/wwc/centrifuge.ini
-    section=centrifuge
-    option=centrifuge.project_id
-    value="{{ project_id }}"
+    dest="{{ app_location }}/wwc/production.ini"
+    section="app:main"
+    option=sqlalchemy.url
+    value="{{ sqlalchemy_url }}"
 
-- name: template out centrifuge secret_key
+- name: set redis sessions secret in production.ini
   ini_file: >
-    dest=/opt/wwc/wwc/centrifuge.ini
-    section=centrifuge
-    option=centrifuge.secret_key
-    value="{{ secret_key }}"
+    dest="{{ app_location }}/wwc/production.ini"
+    section="app:main"
+    option="redis.sessions.secret"
+    value="{{ redis_sessions_secret }}"
 
-- name: give ownership to app
-  command: >
-    chown -R app:app wwc
-    chdir=/opt/
+- name: set redis sessions host in production.ini
+  ini_file: >
+    dest="{{ app_location }}/wwc/production.ini"
+    section="app:main"
+    option="redis.sessions.host"
+    value="{{ redis_sessions_host }}"
+
+- name: set redis sessions port in production.ini
+  ini_file: >
+    dest="{{ app_location }}/wwc/production.ini"
+    section="app:main"
+    option="redis.sessions.port"
+    value="{{ redis_sessions_port }}"
+
+- name: template out secrets.ini
+  template: >
+    src=secrets.ini.j2
+    dest="{{ app_location }}/wwc/secrets.ini"

@@ -1,0 +1,28 @@
+---
+# upstart doesn't need enabled
+- name: copy the uwsgi-emperor configuration file
+  template: >
+    src=uwsgi.emperor.upstart.j2
+    dest=/etc/init/uwsgi-emperor.conf
+  notify:
+    - restart uwsgi-emperor
+
+- name: create the log directory
+  file: >
+    state=directory
+    path="{{ uwsgi_log_path }}"
+
+- name: create the conf directory for uwsgi emperor
+  file: >
+    state=directory
+    path="{{ uwsgi_config_path }}"
+
+- name: create the sock directory for uwsgi
+  file: >
+    state=directory
+    path="{{ uwsgi_socket_path }}"
+
+- name: copy the uwsgi configuration file
+  template: >
+    src=uwsgi.ini.j2
+    dest="{{ uwsgi_config_path }}/uwsgi.ini"

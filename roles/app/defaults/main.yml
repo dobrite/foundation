@@ -1,0 +1,6 @@
+---
+app_location: "/opt/wwc"
+uwsgi_binary_location: "/opt/wwc/bin/uwsgi"
+uwsgi_config_path: "/opt/wwc/conf"
+uwsgi_socket_path: "/tmp"
+uwsgi_log_path: "/var/log/wwc"

@@ -1,0 +1,13 @@
+[uwsgi]
+base = {{ app_location }}
+master = true
+socket = {{ uwsgi_socket_path }}/wwc.sock
+chown-socket = www-data:www-data
+#http = 127.0.0.1:9090
+wsgi-file = %(base)/wwc/wwc.wsgi
+chdir = %(base)/wwc
+pythonpath = %(base)/eggs/*.egg
+pythonpath = %(base)/src/*
+processes = 2
+stats = 127.0.0.1:9191
+daemonize = {{ uwsgi_log_path }}/wwc.log
