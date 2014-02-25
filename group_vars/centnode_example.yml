@@ -1,6 +1,6 @@
 ---
 redis_bind_address: "{{ ansible_local.config.ip.private }}"
-redis_port: 6395
+redis_port:
 #redis_cluster_enabled: "yes"
 #redis_cluster_node_timeout: 5000
 #redis_appendonly: "yes"
