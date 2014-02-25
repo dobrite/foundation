@@ -5,7 +5,6 @@ pg_cfg_pg_hba_default:
   - { type: host,  database: all, user: all,      address: '127.0.0.1/32', method: trust, comment: 'IPv4 local connections:' }
   - { type: host,  database: all, user: all,      address: '::1/128',      method: trust, comment: 'IPv6 local connections:' }
 
+# add to list for more databases
 pg_database_config:
-  - { database: wwc_production, user: wwc_production, password: notagoodone@#$1}
-  - { database: wwc_staging,    user: wwc_staging,    password: anothernotsogoodone$#$%^#}
-  - { database: wwc_test,       user: wwc_test,       password: areallybadone*(!293810}
+  - { database: <db_name>, user: <db_user>, password: <db_pass>}
