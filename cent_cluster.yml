@@ -61,7 +61,7 @@
         path=/etc/nginx/sites-enabled/default
         state=absent
 
-- hosts: centnode-1
+- hosts: centnode-01
   sudo: true
   tasks:
     - name: initialize cent projects
