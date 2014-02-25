@@ -1,6 +1,8 @@
 ---
 redis_bind_address: "{{ ansible_local.config.ip.private }}"
 redis_port:
+
+# expiremental redis 3 cluster support - please ignore
 #redis_cluster_enabled: "yes"
 #redis_cluster_node_timeout: 5000
 #redis_appendonly: "yes"
