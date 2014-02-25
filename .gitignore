@@ -3,6 +3,7 @@
 # API keys, etc.
 secrets.ini
 all.yml
+app.yml
 
 Packages
 *.egg
