@@ -32,7 +32,7 @@
       nginx_use_epoll: true
     - role: centrifuge
       cent_conf:
-        pg_host: "{{ hostvars['centpg-1'].ansible_local.config.ip.private }}"
+        pg_host: "{{ hostvars['centpg-01'].ansible_local.config.ip.private }}"
         pg_port: "{{ cent_pg_port }}"
         pg_name: "{{ cent_pg_db_name }}"
         pg_password: "{{ cent_pg_pass }}"
@@ -103,9 +103,9 @@
 - hosts: appnode
   sudo: true
   vars:
-    centrifuge_project_id: "{{ hostvars['centnode-1'].project_id }}"
-    centrifuge_secret_key: "{{ hostvars['centnode-1'].secret_key }}"
-    app_pg_host: "{{ hostvars['apppg-1'].ansible_local.config.ip.private }}"
+    centrifuge_project_id: "{{ hostvars['centnode-01'].project_id }}"
+    centrifuge_secret_key: "{{ hostvars['centnode-01'].secret_key }}"
+    app_pg_host: "{{ hostvars['apppg-01'].ansible_local.config.ip.private }}"
   roles:
     - role: python
     - role: app
