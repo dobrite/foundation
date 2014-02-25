@@ -30,12 +30,6 @@
     group=cent
     mode=0640
 
-- name: check for initialize_cent_project.py # signal to ansible
-  shell: "[ -f /opt/centrifuge/initialize_cent_projects.py ]"
-  register: icp
-  ignore_errors: true
-  changed_when: false
-
 - name: copy over initilize_cent_projects.py
   copy: >
     src=initialize_cent_projects.py
@@ -43,7 +37,6 @@
     owner=cent
     group=cent
     mode=0640
-  when: icp.rc
 
 - name: give ownership to cent
   command: >
