@@ -1,5 +1,0 @@
----
-cent_pg_port: 5435
-cent_pg_pass: badpass!!
-cent_pg_db_name: cent_structure
-cent_pg_db_user: cent_structure

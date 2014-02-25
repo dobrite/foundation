@@ -1,0 +1,12 @@
+---
+app_pg_port:
+app_pg_pass:
+app_pg_db_name:
+app_pg_db_user:
+redis_bind_address: "{{ hostvars['appredis-1'].ansible_local.config.ip.private }}"
+redis_port:
+mandrill_mail_username:
+mandrill_mail_password:
+velruse.reddit.consumer_key:
+velruse.reddit.consumer_secret:
+velruse.reddit.user_agent: wwc/0.0.1

@@ -4,6 +4,7 @@
 secrets.ini
 all.yml
 app.yml
+cent.yml
 
 Packages
 *.egg
