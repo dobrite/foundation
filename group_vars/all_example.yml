@@ -9,3 +9,9 @@ vms:
   - centrifuge-1
   - centrifuge-2
   - redis-1
+
+mandrill_mail_username:
+mandrill_mail_password:
+velruse.reddit.consumer_key:
+velruse.reddit.consumer_secret:
+velruse.reddit.user_agent:
