@@ -1,4 +1,9 @@
 ---
+- name: do an apt-get upgrade
+  apt: >
+    upgrade=yes
+    update_cache=yes
+
 - include: git.yml
 - include: make.yml
 - include: vim.yml
