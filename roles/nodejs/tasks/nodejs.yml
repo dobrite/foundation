@@ -10,16 +10,19 @@
     - python-apt
 
 - name: add nodejs ppa
-  apt_repository: repo='deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu precise main'
+  apt_repository: >
+    repo="deb {{ nodejs_ppa }} precise main"
 
 - name: add nodejs ppa key
-  apt_key: url='http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12'
+  apt_key: >
+    url="{{ nodejs_ppa_key }}"
 
 # we need to update_cache here
-- name: install nodejs 0.10.26
-  apt: pkg="nodejs=0.10.26-1chl1~precise1"
-       state=present
-       update_cache=true
+- name: install nodejs {{ nodejs_version }}
+  apt: >
+    pkg="nodejs={{ nodejs_version }}"
+    state=present
+    update_cache=true
 
 - name: install bower
   npm: >
