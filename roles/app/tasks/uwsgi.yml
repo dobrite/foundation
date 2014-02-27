@@ -7,20 +7,14 @@
   notify:
     - restart uwsgi-emperor
 
-- name: create the log directory
+- name: create the log, conf, and socket directories
   file: >
     state=directory
-    path="{{ uwsgi_log_path }}"
-
-- name: create the conf directory for uwsgi emperor
-  file: >
-    state=directory
-    path="{{ uwsgi_config_path }}"
-
-- name: create the sock directory for uwsgi
-  file: >
-    state=directory
-    path="{{ uwsgi_socket_path }}"
+    path="{{ item }}"
+  with_items:
+    - {{ uwsgi_log_path }}
+    - {{ uwsgi_config_path }}
+    - {{ uwsgi_socket_path }}
 
 - name: copy the uwsgi configuration file
   template: >
