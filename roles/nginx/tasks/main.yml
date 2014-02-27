@@ -9,6 +9,10 @@
   with_items:
     - python-pycurl
     - python-apt
+    # custom build with sticky
+    # libgd2-noxpm
+    # libgd2-xpm
+    # libxslt1.1
 
 - name: add nginx ppa
   apt_repository: >

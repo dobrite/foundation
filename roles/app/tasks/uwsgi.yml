@@ -12,9 +12,9 @@
     state=directory
     path="{{ item }}"
   with_items:
-    - {{ uwsgi_log_path }}
-    - {{ uwsgi_config_path }}
-    - {{ uwsgi_socket_path }}
+    - "{{ uwsgi_log_path }}"
+    - "{{ uwsgi_config_path }}"
+    - "{{ uwsgi_socket_path }}"
 
 - name: copy the uwsgi configuration file
   template: >

@@ -13,7 +13,7 @@
 
 - name: create a virtualenv using pyvenv
   command: >
-    /opt/python-3.3.3/bin/pyvenv-3.3 --upgrade {{ virtualenv3_location }}
+    pyvenv-3.3 --upgrade {{ virtualenv3_location }}
     creates={{ virtualenv3_location }}/bin/python3.3
 
 - name: check for pip in the virtualenv
