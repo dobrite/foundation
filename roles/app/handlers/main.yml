@@ -3,3 +3,11 @@
   service: >
     name=uwsgi-emperor
     state=restarted
+
+- name: make the app env
+  sudo_user: app
+  environment:
+    HOME: "{{ app_location }}"
+  shell: >
+    make env
+    chdir="{{ app_location }}"

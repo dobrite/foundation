@@ -12,9 +12,18 @@
     repo=https://github.com/dobrite/wwc.git
     dest="{{ app_location }}"
 
-- name: make the environment
+# XXX (we do this twice)
+- name: give ownership to app
+  command: >
+    chown -R app:app {{ app_location }}
+
+# XXX (this should only be a handler)
+- name: make the app env
+  sudo_user: app
+  environment:
+    HOME: "{{ app_location }}"
   shell: >
-    PATH=$PATH:/opt/python-3.3.3/bin make env
+    make env
     chdir="{{ app_location }}"
 
 - name: set the sqlalchemy connection string in production.ini

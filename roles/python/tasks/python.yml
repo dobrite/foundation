@@ -55,3 +55,8 @@
            chdir=/tmp/Python-3.3.3
            creates=/opt/python-3.3.3/bin/python3.3
   when: python3.rc
+
+- name: symlink python binaries to /usr/local/bin
+  shell: >
+    ln -s /opt/python-3.3.3/bin/* /usr/local/bin
+    creates=/usr/local/bin/python3

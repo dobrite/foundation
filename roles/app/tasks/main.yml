@@ -6,3 +6,8 @@
 - name: give ownership to app
   command: >
     chown -R app:app {{ app_location }}
+
+- name: start uwsgi-emperor
+  service: >
+    name=uwsgi-emperor
+    state=started

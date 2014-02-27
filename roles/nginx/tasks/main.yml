@@ -1,11 +1,28 @@
 # https://github.com/bennojoy/nginx
 ---
-- name: Install the nginx package
+- name: install deps for apt_repository
   apt: >
-    name=nginx
-    state=present
-    update_cache=yes
+    pkg={{ item }}
+    state=latest
+    update_cache=true
     cache_valid_time=3600
+  with_items:
+    - python-pycurl
+    - python-apt
+
+- name: add nginx ppa
+  apt_repository: >
+    repo='deb http://ppa.launchpad.net/nginx/development/ubuntu precise main'
+
+- name: add nodejs ppa key
+  apt_key: >
+    url='http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x00A6F0A3C300EE8C'
+
+# we need to update_cache here
+- name: install nginx 1.5.10-1~precise0
+  apt: pkg="nginx=1.5.10-1~precise0"
+       state=present
+       update_cache=true
 
 - name: copy the nginx configuration file
   template: >
@@ -20,6 +37,13 @@
     dest=/etc/nginx/conf.d/{{ item.server.file_name }}.conf
   with_items: nginx_sites
   when: nginx_sites|lower != 'none'
+  notify:
+   - reload nginx
+
+- name: remove default site
+  file: >
+    state=absent
+    path=/etc/nginx/sites-enabled/default
   notify:
    - reload nginx
 

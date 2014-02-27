@@ -38,7 +38,7 @@
         pg_password: "{{ cent_pg_pass }}"
         pg_user: "{{ cent_pg_db_user }}"
         redis_host: "127.0.0.1"
-        redis_port: 6395
+        redis_port: "{{ redis_port }}"
 
   tasks:
     - name: copy the centrifuge nginx configuration file
@@ -71,73 +71,16 @@
         chdir=/opt/centrifuge
       register: cent_project
 
-    - name: set project_id var
-      set_fact: project_id={{ cent_project['stdout_lines'][0] }}
+    - name: add project_id to wwc_project.ini
+      ini_file: >
+        dest=/opt/centrifuge/wwc_project.ini
+        section=wwc
+        option=project_id
+        value="{{ cent_project['stdout_lines'][0] }}"
 
-    - name: set secret_key var
-      set_fact: secret_key={{ cent_project['stdout_lines'][1] }}
-
-- hosts: apppg
-  sudo: true
-  roles:
-    - role: postgres
-      pg_cfg_srv_listen_addresses: "{{ ansible_local.config.ip.private }}"
-      pg_cfg_srv_listen_port: "{{ app_pg_port }}"
-      pg_cfg_pg_hba_custom:
-        - type: host
-          database: "{{ app_pg_db_name }}"
-          user: "{{ app_pg_db_user }}"
-          address: "192.168.50.0/24"
-          method: md5
-          comment: "centrifuge structure database"
-      pg_database_config:
-        - database: "{{ app_pg_db_name }}"
-          user: "{{ app_pg_db_user }}"
-          password: "{{ app_pg_pass }}"
-
-- hosts: appredis
-  sudo: true
-  roles:
-    - role: redis
-
-- hosts: appnode
-  sudo: true
-  vars:
-    centrifuge_project_id: "{{ hostvars['centnode-01'].project_id }}"
-    centrifuge_secret_key: "{{ hostvars['centnode-01'].secret_key }}"
-    app_pg_host: "{{ hostvars['apppg-01'].ansible_local.config.ip.private }}"
-  roles:
-    - role: python
-    - role: app
-      sqlalchemy_url: "postgresql+psycopg2://{{ app_pg_db_user }}:{{ app_pg_pass }}@{{ app_pg_host }}:{{ app_pg_port }}/{{ app_pg_db_name }}"
-      redis_sessions_secret: "supersecret(plzchangeme!)"
-      redis_sessions_host: "{{ redis_bind_address }}"
-      redis_sessions_port: "{{ redis_port }}"
-    - role: nginx
-      nginx_use_epoll: true
-      nginx_sites:
-        - server:
-            file_name: "wwc"
-            listen: 80
-            server_name: "{{ inventory_hostname }}"
-            charset: "utf-8"
-            location1:
-              name: "/"
-              uwsgi_pass: "unix://{{ uwsgi_socket_path }}/wwc.sock"
-              include: "uwsgi_params"
-              uwsgi_param: "Host $host"
-              uwsgi_param: "X-Real-IP $remote_addr"
-              uwsgi_param: "X-Forwarded-For $proxy_add_x_forwarded_for"
-              uwsgi_param: "X-Forwarded-Proto $http_x_forwarded_proto"
-            location2:
-              name: "/static"
-              root: "{{ app_location }}/wwc/wwc"
-              expires: "30d"
-              add_header: "Cache-Control public"
-              access_log: "off"
-            location3:
-              name: "/app"
-              root: "{{ app_location }}"
-              expires: "30d"
-              add_header: "Cache-Control public"
-              access_log: "off"
+    - name: add project_id to wwc_project.ini
+      ini_file: >
+        dest=/opt/centrifuge/wwc_project.ini
+        section=wwc
+        option=secret_key
+        value="{{ cent_project['stdout_lines'][1] }}"

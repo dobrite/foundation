@@ -10,9 +10,14 @@ server {
 
 {% for k,v in item.server.iteritems() if k.find('location') != -1 %}
   location {{ v.name }} {
-  {% for x,y in v.iteritems() if x != 'name' %}
-      {{ x }} {{ y }};
+  {% for x,y in v.iteritems() if x != 'name' and x != 'uwsgi_params' %}
+    {{ x }} {{ y }};
   {% endfor %}
+  {% if 'uwsgi_params' in v %}
+    {% for param in v.uwsgi_params %}
+      uwsgi_param {{ param }};
+    {% endfor %}
+  {% endif %}
   }
 {% endfor %}
 }
