@@ -11,16 +11,16 @@
 
 - name: add nodejs ppa
   apt_repository: >
-    repo="deb {{ nodejs_ppa }} precise main"
+    repo="deb {{ ppa }} precise main"
 
 - name: add nodejs ppa key
   apt_key: >
-    url="{{ nodejs_ppa_key }}"
+    url="{{ ppa_key }}"
 
 # we need to update_cache here
-- name: install nodejs {{ nodejs_version }}
+- name: install nodejs {{ ppa_version }}
   apt: >
-    pkg="nodejs={{ nodejs_version }}"
+    pkg="nodejs={{ ppa_version }}"
     state=present
     update_cache=true
 

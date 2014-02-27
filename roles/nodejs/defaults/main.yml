@@ -1,4 +1,4 @@
 ---
-nodejs_ppa: "http://ppa.launchpad.net/chris-lea/node.js/ubuntu"
-nodejs_ppa_key: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12"
-nodejs_version: "0.10.26-1chl1~precise1"
+ppa: "http://ppa.launchpad.net/chris-lea/node.js/ubuntu"
+ppa_key: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12"
+ppa_version: "0.10.26-1chl1~precise1"
