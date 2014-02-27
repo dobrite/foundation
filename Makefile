@@ -31,7 +31,10 @@ vcent:
 vapp:
 	ansible-playbook -i vagrant_inventory app_cluster.yml
 
+vha:
+	ansible-playbook -i vagrant_inventory haproxy.yml
+
 v:
 	ansible-playbook -i 'localhost,' vagrant.yml
 
-vall: | v vcent
+vall: | v vcent vapp vha

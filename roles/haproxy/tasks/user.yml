@@ -1,0 +1,12 @@
+---
+- name: create the group haproxy
+  group: >
+    name=haproxy
+    state=present
+
+- name: create user haproxy
+  user: >
+    name=haproxy
+    group=haproxy
+    state=present
+    createhome=no

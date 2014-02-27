@@ -1,0 +1,25 @@
+---
+- name: copy over rsyslog.conf to enable udp logging
+  copy: >
+    src=rsyslog.conf
+    dest=/etc/rsyslog.conf
+    owner=root
+    group=root
+    mode=0755
+
+- name: ensure logging starts on boot
+  copy: >
+    src=30-haproxy.conf
+    dest=/etc/rsyslog.d/30-haproxy.conf
+    owner=root
+    group=root
+    mode=0755
+
+- name: copy the logrotate conf for haproxy
+  copy: >
+    src=haproxy.logrotate
+    dest=/etc/logrotate.d/haproxy
+    owner=root
+    group=root
+    mode=0755
+  notify: restart rsyslog

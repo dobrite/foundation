@@ -1,0 +1,4 @@
+---
+- include: user.yml
+- include: haproxy.yml
+- include: logging.yml

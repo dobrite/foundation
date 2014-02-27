@@ -1,0 +1,83 @@
+---
+- name: install all HAProxy deps
+  apt: pkg={{ item }}
+       state=present
+       update_cache=true
+       cache_valid_time=3600
+  with_items:
+    - libpcre3
+    - libpcre3-dev
+    - libssl-dev
+    - build-essential
+
+- name: check for haproxy
+  shell: "[ -f /usr/local/sbin/haproxy ]"
+  register: haproxy
+  ignore_errors: true
+  changed_when: false
+
+- name: download haproxy 1.5 dev
+  command: >
+    wget http://haproxy.1wt.eu/download/1.5/src/devel/haproxy-1.5-dev21.tar.gz
+    creates=/tmp/haproxy-1.5-dev21.tar.gz
+    chdir=/tmp/
+  when: haproxy.rc
+
+- name: untar haproxy
+  command: >
+    tar -xf haproxy-1.5-dev21.tar.gz
+    creates=/tmp/haproxy-1.5-dev21/
+    chdir=/tmp/
+  when: haproxy.rc
+
+- name: make haproxy
+  command: >
+    make TARGET=linux2628 USE_PCRE=1 USE_OPENSSL=1 USE_ZLIB=1
+    creates=/tmp/haproxy-1.5-dev21/haproxy/
+    chdir=/tmp/haproxy-1.5-dev21
+  when: haproxy.rc
+
+- name: install haproxy
+  command: >
+    make install
+    creates=/usr/local/sbin/haproxy
+    chdir=/tmp/haproxy-1.5-dev21
+  when: haproxy.rc
+
+- name: copy init.d script for haproxy
+  copy: >
+    src=haproxy.init.d
+    dest=/etc/init.d/haproxy
+    owner=root
+    group=root
+    mode=0755
+  notify: restart haproxy
+
+- name: copy default script for haproxy
+  copy: >
+    src=haproxy.default
+    dest=/etc/default/haproxy
+    owner=root
+    group=root
+    mode=0755
+  notify: restart haproxy
+
+- name: create haproxy directory
+  file: >
+    state=directory
+    path=/etc/haproxy
+
+- name: template out haproxy settings
+  template: >
+    src=haproxy.cfg.j2
+    dest=/etc/haproxy/haproxy.cfg
+    owner=root
+    group=root
+    mode=0755
+  notify: restart haproxy
+
+- name: enable and start haproxy
+  service: >
+    name=haproxy
+    state=started
+    enabled=yes
