@@ -20,43 +20,48 @@
     - libxml2-dev
     - python-software-properties
 
-- name: check for python 3.3.3
-  shell: "[ -f /opt/python-3.3.3/bin/python3.3 ]"
+- name: check for python {{ python_version }}
+  shell: "[ -f /opt/python-{{ python_version}}/bin/python3.3 ]"
   register: python3
   ignore_errors: true
   changed_when: false
 
-- name: copy Python-3.3.3.tgz to /tmp
-  copy: src=Python-3.3.3.tgz
-        dest=/tmp/Python-3.3.3.tgz
-        mode=0744
+- name: download python {{ python_version }}
+  command: >
+    wget http://www.python.org/ftp/python/{{ python_version}}/Python-{{ python_version }}.tgz
+    creates=/tmp/Python-{{ python_version }}.tgz
+    chdir=/tmp/
   when: python3.rc
 
-- name: untar Python-3.3.3.tgz into /tmp directory
-  command: tar -xzvf /tmp/Python-3.3.3.tgz
-           chdir=/tmp
-           creates=/opt/python-3.3.3/bin/python3.3
+- name: untar Python-{{ python_version }}.tgz into /tmp directory
+  command: >
+    tar -xzvf /tmp/Python-{{ python_version }}.tgz
+    chdir=/tmp
+    creates=/opt/python-{{ python_version }}/bin/python3.3
   when: python3.rc
 
-- name: configure Python-3.3.3.tgz
-  command: ./configure --prefix=/opt/python-3.3.3
-           chdir=/tmp/Python-3.3.3
-           creates=/opt/python-3.3.3/bin/python3.3
+- name: configure Python-{{ python_version }}.tgz
+  command: >
+    ./configure --prefix=/opt/python-{{ python_version }}
+    chdir=/tmp/Python-{{ python_version }}
+    creates=/opt/python-{{ python_version }}/bin/python3.3
   when: python3.rc
 
-- name: make Python-3.3.3.tgz
-  command: make
-           chdir=/tmp/Python-3.3.3
-           creates=/opt/python-3.3.3/bin/python3.3
+- name: make Python-{{ python_version }}.tgz
+  command: >
+    make
+    chdir=/tmp/Python-{{ python_version }}
+    creates=/opt/python-{{ python_version }}/bin/python3.3
   when: python3.rc
 
-- name: make install Python-3.3.3.tgz
-  command: make install
-           chdir=/tmp/Python-3.3.3
-           creates=/opt/python-3.3.3/bin/python3.3
+- name: make install Python-{{ python_version }}.tgz
+  command: >
+    make install
+    chdir=/tmp/Python-{{ python_version }}
+    creates=/opt/python-{{ python_version }}/bin/python3.3
   when: python3.rc
 
 - name: symlink python binaries to /usr/local/bin
   shell: >
-    ln -s /opt/python-3.3.3/bin/* /usr/local/bin
+    ln -s /opt/python-{{ python_version }}/bin/* /usr/local/bin
     creates=/usr/local/bin/python3
