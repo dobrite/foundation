@@ -1,0 +1,16 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:12.04",
+      "export_path": "image.tar"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "ansible-local",
+      "playbook_file": "tester.yml"
+    }
+  ]
+}
