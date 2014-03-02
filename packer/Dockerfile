@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:12.04
 MAINTAINER dobrite
 RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update -y
@@ -14,4 +14,4 @@ ADD inventory /etc/ansible/hosts
 WORKDIR /tmp/foundation
 RUN ansible-playbook redis.yml -c local
 EXPOSE 6379
-ENTRYPOINT [“/usr/bin/redis-server”]
+ENTRYPOINT exec /usr/bin/redis-server

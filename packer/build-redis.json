@@ -1,16 +1,12 @@
 {
-  "builders": [
-    {
+  "builders": [{
       "type": "docker",
-      "image": "ubuntu:12.04",
+      "image": "dobrite/ubuntu-ansible:12.04-1.5",
       "export_path": "image.tar"
-    }
-  ],
-
-  "provisioners": [
-    {
+  }],
+  "provisioners": [{
       "type": "ansible-local",
-      "playbook_file": "tester.yml"
-    }
-  ]
+      "playbook_file": "../redis.yml",
+      "role_paths": ["../roles/redis/"]
+  }]
 }
