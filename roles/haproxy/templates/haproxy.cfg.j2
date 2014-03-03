@@ -44,10 +44,9 @@ frontend public
   #use_backend cent if { path_beg /socket }
   #use_backend cent if { path_beg /connection }
   #use_backend cent if { path_beg /connection/websocket }
-  # Everything else to Nginx.
+  # Everything else to appnodes.
   use_backend cent if is_websocket is_ws_url
-  default_backend nginx
-
+  default_backend appnode
 backend cent
   # Tell the backend that this is a secure connection,
   # even though it's getting plain HTTP.
@@ -59,10 +58,12 @@ backend cent
   #option httpchk GET /served/by/node/isrunning
   #timeout check 500ms
   # Wait 500ms between checks.
-  #server node1 127.0.0.1:10080 check inter 500ms
-  server cent1 192.168.50.252:80
+  #server centnode-01 127.0.0.1:10080 check inter 500ms
+  {% for host in groups['centnode'] %}
+    server {{ host }} {{ hostvars[host].ansible_local.config.ip.private }}:80
+  {% endfor %}
 
-backend nginx
+backend appnode
   # Tell the backend that this is a secure connection,
   # even though it's getting plain HTTP.
   #reqadd X-Forwarded-Proto:\ https
@@ -72,8 +73,10 @@ backend nginx
   #option httpchk GET /isrunning
   #timeout check 500ms
   # Wait 500ms between checks.
-  #server nginx1 127.0.0.1:8080 check inter 500ms
-  server nginx1 192.168.50.250:80
+  #server appnode-01 127.0.0.1:8080 check inter 500ms
+  {% for host in groups['appnode'] %}
+    server {{ host }} {{ hostvars[host].ansible_local.config.ip.private }}:80
+  {% endfor %}
 
 # For displaying HAProxy statistics.
 #frontend stats

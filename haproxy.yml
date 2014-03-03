@@ -1,4 +1,8 @@
 ---
+# gather facts for all hosts
+- hosts: all
+  sudo: true
+
 - hosts: haproxy
   sudo: true
   roles:

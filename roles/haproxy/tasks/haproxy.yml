@@ -1,5 +1,5 @@
 ---
-- name: install all HAProxy deps
+- name: install all haproxy deps
   apt: pkg={{ item }}
        state=present
        update_cache=true
