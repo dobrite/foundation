@@ -23,8 +23,8 @@
     url='http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x00A6F0A3C300EE8C'
 
 # we need to update_cache here
-- name: install nginx 1.5.10-1~precise0
-  apt: pkg="nginx=1.5.10-1~precise0"
+- name: install nginx 1.5.11-1+precise0
+  apt: pkg="nginx=1.5.11-1+precise0"
        state=present
        update_cache=true
 

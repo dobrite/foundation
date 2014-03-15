@@ -13,8 +13,8 @@
   apt_key: url='http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12'
 
 # we need to update_cache here
-- name: install redis-server 2.8.6
-  apt: pkg="redis-server=2:2.8.6-1chl1~precise1"
+- name: install redis-server 2.8.7
+  apt: pkg="redis-server=2:2.8.7-1chl1~precise1"
        state=present
        update_cache=true
 
